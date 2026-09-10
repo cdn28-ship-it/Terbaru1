@@ -184,45 +184,6 @@
 
 
     /* ==============================
-       TIMER
-    =============================== */
-
-    .timer {
-
-      position:
-        absolute;
-
-      top:
-        14px;
-
-      right:
-        14px;
-
-      z-index:
-        5;
-
-      padding:
-        8px 12px;
-
-      border-radius:
-        8px;
-
-      background:
-        rgba(0,0,0,.75);
-
-      font-size:
-        13px;
-
-      color:
-        #fff;
-
-      pointer-events:
-        none;
-
-    }
-
-
-    /* ==============================
        LOCK OVERLAY
     =============================== */
 
@@ -531,17 +492,6 @@
       </video>
 
 
-      <!-- TIMER -->
-
-      <div
-        class="timer"
-        id="timer">
-
-        20 detik
-
-      </div>
-
-
       <!-- ==============================
            LOCK OVERLAY
       =============================== -->
@@ -644,12 +594,6 @@
       );
 
 
-    const timer =
-      document.getElementById(
-        "timer"
-      );
-
-
     const continueButton =
       document.getElementById(
         "continueButton"
@@ -660,21 +604,7 @@
     ==================================
     SESSION STATUS
     ==================================
-
-    sessionStorage digunakan supaya:
-
-    Pengunjung baru:
-    mulai dari 0 detik.
-
-    Setelah tombol diklik:
-    status disimpan selama sesi browser.
-
-    Ketika kembali:
-    video melanjutkan dari 20 detik.
-
-    ==================================
     */
-
 
     let unlocked =
       sessionStorage.getItem(
@@ -682,68 +612,34 @@
       ) === "true";
 
 
-    let triggered = false;
-
-
     /*
     ==================================
-    SAAT HALAMAN DIBUKA
+    SAAT VIDEO DIMUAT
     ==================================
     */
 
-    window.addEventListener(
-      "DOMContentLoaded",
+    video.addEventListener(
+      "loadedmetadata",
       function() {
-
-
-        /*
-        Jika sebelumnya user sudah
-        menekan "Lanjutkan Video",
-        maka jangan tampilkan trigger lagi.
-        */
 
         if (unlocked) {
 
           /*
-          Tunggu metadata video
+          User sudah melewati trigger
+          sebelumnya dalam sesi ini.
           */
 
-          video.addEventListener(
-            "loadedmetadata",
-            function() {
+          video.currentTime =
+            TRIGGER_TIME;
 
-              video.currentTime =
-                TRIGGER_TIME;
-
-              timer.textContent =
-                "▶ Melanjutkan";
-
-            },
-            {
-              once: true
-            }
-          );
-
-        }
-
-        else {
+        } else {
 
           /*
-          Pengunjung baru selalu mulai
+          Pengunjung baru mulai
           dari awal.
           */
 
-          video.addEventListener(
-            "loadedmetadata",
-            function() {
-
-              video.currentTime = 0;
-
-            },
-            {
-              once: true
-            }
-          );
+          video.currentTime = 0;
 
         }
 
@@ -761,35 +657,14 @@
       "timeupdate",
       function() {
 
-
         /*
-        Kalau sudah unlocked,
-        jangan trigger lagi.
+        Jika sudah unlock,
+        jangan tampilkan trigger lagi.
         */
 
         if (unlocked) {
-
           return;
-
         }
-
-
-        /*
-        Hitung sisa waktu.
-        */
-
-        const remaining =
-          Math.max(
-            0,
-            Math.ceil(
-              TRIGGER_TIME -
-              video.currentTime
-            )
-          );
-
-
-        timer.textContent =
-          remaining + " detik";
 
 
         /*
@@ -802,9 +677,6 @@
           video.currentTime >=
           TRIGGER_TIME
         ) {
-
-
-          triggered = true;
 
 
           /*
@@ -821,14 +693,6 @@
           videoBox.classList.add(
             "is-locked"
           );
-
-
-          /*
-          Timer
-          */
-
-          timer.textContent =
-            "✓ 20 detik";
 
         }
 
@@ -848,7 +712,7 @@
 
 
         /*
-        Tandai bahwa user sudah
+        Tandai user sudah
         melewati trigger.
         */
 
@@ -882,20 +746,11 @@
 
 
         /*
-        Kembalikan video tepat
-        ke posisi 20 detik.
+        Kembali ke posisi 20 detik
         */
 
         video.currentTime =
           TRIGGER_TIME;
-
-
-        /*
-        Update timer
-        */
-
-        timer.textContent =
-          "▶ Melanjutkan";
 
 
         /*
@@ -905,11 +760,12 @@
         video.play()
           .catch(
             function() {
+
               /*
-              Beberapa browser
-              mungkin meminta user
-              menekan play kembali.
+              Browser tertentu mungkin
+              meminta user menekan play.
               */
+
             }
           );
 
@@ -919,18 +775,13 @@
 
     /*
     ==================================
-    JIKA TAB DITINGGALKAN
+    KETIKA USER KEMBALI KE HALAMAN
     ==================================
     */
 
     document.addEventListener(
       "visibilitychange",
       function() {
-
-
-        /*
-        User kembali ke halaman
-        */
 
         if (
           document.visibilityState ===
@@ -941,7 +792,8 @@
           if (unlocked) {
 
             /*
-            Jangan mulai dari awal.
+            Pastikan video tidak
+            kembali ke awal.
             */
 
             if (
@@ -996,28 +848,22 @@
 
     (function() {
 
-
       var hs =
         document.createElement(
           'script'
         );
 
-
       hs.type =
         'text/javascript';
 
-
       hs.async = true;
-
 
       hs.src =
         '//s10.histats.com/js15_as.js';
 
-
       document
         .getElementsByTagName('head')[0]
         .appendChild(hs);
-
 
     })();
 

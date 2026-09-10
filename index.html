@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>🎬Nonton aja</title>
+
+
+  <!-- ==============================
+       FACEBOOK / OPEN GRAPH
+  =============================== -->
+
+  <meta property="og:title"
+        content="Tonton Video">
+
+  <meta property="og:description"
+        content="Tonton video selengkapnya di sini.">
+
+  <meta property="og:image"
+        content="https://jpcdn.it/img/a849a66659a389ae4b2b59230bcba18d.jpg">
+
+  <meta property="og:image:width"
+        content="1200">
+
+  <meta property="og:image:height"
+        content="630">
+
+  <meta property="og:type"
+        content="website">
+
+
+  <!-- ==============================
+       CSS
+  =============================== -->
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        #0b0b0b;
+
+      color:
+        #ffffff;
+
+      min-height:
+        100vh;
+
+    }
+
+
+    .page {
+
+      width:
+        100%;
+
+      max-width:
+        900px;
+
+      margin:
+        auto;
+
+      padding:
+        20px;
+
+    }
+
+
+    /* ==============================
+       HEADER
+    =============================== */
+
+    .header {
+
+      text-align:
+        center;
+
+      margin-bottom:
+        20px;
+
+    }
+
+
+    .header h1 {
+
+      font-size:
+        26px;
+
+      margin-bottom:
+        8px;
+
+    }
+
+
+    .header p {
+
+      color:
+        #aaa;
+
+      font-size:
+        14px;
+
+    }
+
+
+    /* ==============================
+       VIDEO AREA
+    =============================== */
+
+    .video-box {
+
+      position:
+        relative;
+
+      width:
+        100%;
+
+      background:
+        #000;
+
+      border-radius:
+        14px;
+
+      overflow:
+        hidden;
+
+      box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.55);
+
+    }
+
+
+    video {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      height:
+        auto;
+
+      background:
+        #000;
+
+      transition:
+        filter .35s ease,
+        transform .35s ease;
+
+    }
+
+
+    /* ==============================
+       VIDEO BLUR
+    =============================== */
+
+    .video-box.is-locked video {
+
+      filter:
+        blur(14px);
+
+      transform:
+        scale(1.04);
+
+    }
+
+
+    /* ==============================
+       TIMER
+    =============================== */
+
+    .timer {
+
+      position:
+        absolute;
+
+      top:
+        14px;
+
+      right:
+        14px;
+
+      z-index:
+        5;
+
+      padding:
+        8px 12px;
+
+      border-radius:
+        8px;
+
+      background:
+        rgba(0,0,0,.75);
+
+      font-size:
+        13px;
+
+      color:
+        #fff;
+
+      pointer-events:
+        none;
+
+    }
+
+
+    /* ==============================
+       LOCK OVERLAY
+    =============================== */
+
+    .lock-overlay {
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      z-index:
+        10;
+
+      display:
+        none;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        20px;
+
+      background:
+        rgba(0,0,0,.45);
+
+    }
+
+
+    .video-box.is-locked
+    .lock-overlay {
+
+      display:
+        flex;
+
+    }
+
+
+    /* ==============================
+       POPUP
+    =============================== */
+
+    .popup {
+
+      width:
+        100%;
+
+      max-width:
+        380px;
+
+      padding:
+        28px 24px;
+
+      text-align:
+        center;
+
+      background:
+        rgba(20,20,20,.97);
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      border-radius:
+        15px;
+
+      box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.7);
+
+    }
+
+
+    .popup-icon {
+
+      font-size:
+        42px;
+
+      margin-bottom:
+        10px;
+
+    }
+
+
+    .popup h2 {
+
+      font-size:
+        22px;
+
+      margin-bottom:
+        10px;
+
+    }
+
+
+    .popup p {
+
+      font-size:
+        14px;
+
+      line-height:
+        1.6;
+
+      color:
+        #cfcfcf;
+
+      margin-bottom:
+        20px;
+
+    }
+
+
+    /* ==============================
+       BUTTON
+    =============================== */
+
+    .continue-button {
+
+      width:
+        100%;
+
+      padding:
+        14px 20px;
+
+      border:
+        0;
+
+      border-radius:
+        9px;
+
+      background:
+        #2196f3;
+
+      color:
+        #fff;
+
+      font-size:
+        16px;
+
+      font-weight:
+        bold;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .continue-button:hover {
+
+      background:
+        #1976d2;
+
+    }
+
+
+    .continue-button:active {
+
+      transform:
+        scale(.98);
+
+    }
+
+
+    /* ==============================
+       INFO
+    =============================== */
+
+    .info {
+
+      margin-top:
+        18px;
+
+      padding:
+        15px;
+
+      background:
+        #171717;
+
+      border-radius:
+        10px;
+
+      color:
+        #aaa;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.6;
+
+      text-align:
+        center;
+
+    }
+
+
+    /* ==============================
+       HISTATS
+    =============================== */
+
+    #histats_counter {
+
+      margin-top:
+        20px;
+
+      text-align:
+        center;
+
+    }
+
+
+    /* ==============================
+       MOBILE
+    =============================== */
+
+    @media (max-width:600px) {
+
+      .page {
+
+        padding:
+          10px;
+
+      }
+
+
+      .header h1 {
+
+        font-size:
+          21px;
+
+      }
+
+
+      .popup {
+
+        padding:
+          24px 18px;
+
+      }
+
+
+      .popup h2 {
+
+        font-size:
+          20px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <main class="page">
+
+
+    <!-- ==============================
+         HEADER
+    =============================== -->
+
+    <header class="header">
+
+      <h1>
+        🎬 Tonton Video
+      </h1>
+
+      <p>
+        Klik tombol play untuk mulai menonton
+      </p>
+
+    </header>
+
+
+    <!-- ==============================
+         VIDEO
+    =============================== -->
+
+    <section
+      class="video-box"
+      id="videoBox">
+
+
+      <video
+        id="videoPlayer"
+        controls
+        playsinline
+        preload="metadata"
+        poster="https://jpcdn.it/img/a849a66659a389ae4b2b59230bcba18d.jpg">
+
+        <source
+          src="https://cdn2.videy.co/j0JIPDQb1.mp4"
+          type="video/mp4">
+
+        Browser kamu tidak mendukung
+        video HTML5.
+
+      </video>
+
+
+      <!-- TIMER -->
+
+      <div
+        class="timer"
+        id="timer">
+
+        20 detik
+
+      </div>
+
+
+      <!-- ==============================
+           LOCK OVERLAY
+      =============================== -->
+
+      <div
+        class="lock-overlay"
+        id="lockOverlay">
+
+
+        <div class="popup">
+
+          <div class="popup-icon">
+            ▶️
+          </div>
+
+          <h2>
+            Lanjutkan Video
+          </h2>
+
+          <p>
+            Kamu sudah menonton video selama
+            20 detik. Tekan tombol di bawah
+            untuk melanjutkan video.
+          </p>
+
+
+          <button
+            type="button"
+            class="continue-button"
+            id="continueButton">
+
+            Lanjutkan Video
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==============================
+         INFO
+    =============================== -->
+
+    <div class="info">
+
+      Video akan menampilkan opsi
+      <strong>Lanjutkan Video</strong>
+      setelah 20 detik pemutaran.
+
+    </div>
+
+
+    <!-- ==============================
+         HISTATS
+    =============================== -->
+
+    <div id="histats_counter"></div>
+
+
+  </main>
+
+
+
+  <!-- ==============================
+       JAVASCRIPT
+  =============================== -->
+
+  <script>
+
+    /*
+    ==================================
+    PENGATURAN
+    ==================================
+    */
+
+    const TRIGGER_TIME = 20;
+
+
+    const DIRECT_LINK =
+      "https://www.profitableratecpmnetwork.com/jqam5pwjs?key=759fb4084cc926a5cff7602a430c42af";
+
+
+    /*
+    ==================================
+    ELEMENT
+    ==================================
+    */
+
+    const video =
+      document.getElementById(
+        "videoPlayer"
+      );
+
+
+    const videoBox =
+      document.getElementById(
+        "videoBox"
+      );
+
+
+    const timer =
+      document.getElementById(
+        "timer"
+      );
+
+
+    const continueButton =
+      document.getElementById(
+        "continueButton"
+      );
+
+
+    /*
+    ==================================
+    SESSION STATUS
+    ==================================
+
+    sessionStorage digunakan supaya:
+
+    Pengunjung baru:
+    mulai dari 0 detik.
+
+    Setelah tombol diklik:
+    status disimpan selama sesi browser.
+
+    Ketika kembali:
+    video melanjutkan dari 20 detik.
+
+    ==================================
+    */
+
+
+    let unlocked =
+      sessionStorage.getItem(
+        "videoUnlocked"
+      ) === "true";
+
+
+    let triggered = false;
+
+
+    /*
+    ==================================
+    SAAT HALAMAN DIBUKA
+    ==================================
+    */
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      function() {
+
+
+        /*
+        Jika sebelumnya user sudah
+        menekan "Lanjutkan Video",
+        maka jangan tampilkan trigger lagi.
+        */
+
+        if (unlocked) {
+
+          /*
+          Tunggu metadata video
+          */
+
+          video.addEventListener(
+            "loadedmetadata",
+            function() {
+
+              video.currentTime =
+                TRIGGER_TIME;
+
+              timer.textContent =
+                "▶ Melanjutkan";
+
+            },
+            {
+              once: true
+            }
+          );
+
+        }
+
+        else {
+
+          /*
+          Pengunjung baru selalu mulai
+          dari awal.
+          */
+
+          video.addEventListener(
+            "loadedmetadata",
+            function() {
+
+              video.currentTime = 0;
+
+            },
+            {
+              once: true
+            }
+          );
+
+        }
+
+      }
+    );
+
+
+    /*
+    ==================================
+    VIDEO TIME UPDATE
+    ==================================
+    */
+
+    video.addEventListener(
+      "timeupdate",
+      function() {
+
+
+        /*
+        Kalau sudah unlocked,
+        jangan trigger lagi.
+        */
+
+        if (unlocked) {
+
+          return;
+
+        }
+
+
+        /*
+        Hitung sisa waktu.
+        */
+
+        const remaining =
+          Math.max(
+            0,
+            Math.ceil(
+              TRIGGER_TIME -
+              video.currentTime
+            )
+          );
+
+
+        timer.textContent =
+          remaining + " detik";
+
+
+        /*
+        ==================================
+        MENCAPAI 20 DETIK
+        ==================================
+        */
+
+        if (
+          video.currentTime >=
+          TRIGGER_TIME
+        ) {
+
+
+          triggered = true;
+
+
+          /*
+          Pause video
+          */
+
+          video.pause();
+
+
+          /*
+          Blur video
+          */
+
+          videoBox.classList.add(
+            "is-locked"
+          );
+
+
+          /*
+          Timer
+          */
+
+          timer.textContent =
+            "✓ 20 detik";
+
+        }
+
+      }
+    );
+
+
+    /*
+    ==================================
+    TOMBOL LANJUTKAN VIDEO
+    ==================================
+    */
+
+    continueButton.addEventListener(
+      "click",
+      function() {
+
+
+        /*
+        Tandai bahwa user sudah
+        melewati trigger.
+        */
+
+        unlocked = true;
+
+
+        sessionStorage.setItem(
+          "videoUnlocked",
+          "true"
+        );
+
+
+        /*
+        Hilangkan blur
+        */
+
+        videoBox.classList.remove(
+          "is-locked"
+        );
+
+
+        /*
+        Buka direct link.
+        */
+
+        window.open(
+          DIRECT_LINK,
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+
+        /*
+        Kembalikan video tepat
+        ke posisi 20 detik.
+        */
+
+        video.currentTime =
+          TRIGGER_TIME;
+
+
+        /*
+        Update timer
+        */
+
+        timer.textContent =
+          "▶ Melanjutkan";
+
+
+        /*
+        Lanjutkan video
+        */
+
+        video.play()
+          .catch(
+            function() {
+              /*
+              Beberapa browser
+              mungkin meminta user
+              menekan play kembali.
+              */
+            }
+          );
+
+      }
+    );
+
+
+    /*
+    ==================================
+    JIKA TAB DITINGGALKAN
+    ==================================
+    */
+
+    document.addEventListener(
+      "visibilitychange",
+      function() {
+
+
+        /*
+        User kembali ke halaman
+        */
+
+        if (
+          document.visibilityState ===
+          "visible"
+        ) {
+
+
+          if (unlocked) {
+
+            /*
+            Jangan mulai dari awal.
+            */
+
+            if (
+              video.currentTime <
+              TRIGGER_TIME
+            ) {
+
+              video.currentTime =
+                TRIGGER_TIME;
+
+            }
+
+          }
+
+        }
+
+      }
+    );
+
+
+  </script>
+
+
+
+  <!-- ==============================
+       HISTATS
+  =============================== -->
+
+  <script type="text/javascript">
+
+    var _Hasync =
+      _Hasync || [];
+
+
+    _Hasync.push([
+      'Histats.start',
+      '1,5043495,4,511,95,18,00000000'
+    ]);
+
+
+    _Hasync.push([
+      'Histats.fasi',
+      '1'
+    ]);
+
+
+    _Hasync.push([
+      'Histats.track_hits',
+      ''
+    ]);
+
+
+    (function() {
+
+
+      var hs =
+        document.createElement(
+          'script'
+        );
+
+
+      hs.type =
+        'text/javascript';
+
+
+      hs.async = true;
+
+
+      hs.src =
+        '//s10.histats.com/js15_as.js';
+
+
+      document
+        .getElementsByTagName('head')[0]
+        .appendChild(hs);
+
+
+    })();
+
+  </script>
+
+
+  <noscript>
+
+    <a
+      href="/"
+      target="_blank">
+
+      <img
+        src="//sstatic1.histats.com/0.gif?5043495&101"
+        alt="traffic analysis"
+        border="0">
+
+    </a>
+
+  </noscript>
+
+
+</body>
+</html>
